@@ -19,10 +19,6 @@ public class UserDAOImpl implements UserDAO {
     @PersistenceContext
     private EntityManager entityManager;
 
-    @Autowired
-    private RoleService roleService;
-
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @Override
     public User getUser(Long id) {
@@ -30,15 +26,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void addUser(User user, String[] roles) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        if (!(roles == null)) {
-            Set<Role> roleSet = new HashSet<>();
-            for (String role : roles) {
-                roleSet.add(roleService.getRoleByName(role));
-            }
-            user.setRoles(roleSet);
-        }
+    public void addUser(User user) {
         entityManager.persist(user);
     }
 
@@ -48,14 +36,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(User user, String[] roles) {
-        if(!(roles == null)) {
-            Set<Role> roleSet = new HashSet<>();
-            for (String role : roles) {
-                roleSet.add(roleService.getRoleByName(role));
-            }
-            user.setRoles(roleSet);
-        }
+    public void updateUser(User user) {
         entityManager.merge(user);
     }
 

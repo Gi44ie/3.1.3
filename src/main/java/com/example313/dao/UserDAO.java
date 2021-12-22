@@ -7,9 +7,9 @@ import java.util.Optional;
 
 public interface UserDAO {
     User getUser(Long id);
-    void addUser(User user, String[] roles);
+    void addUser(User user);
     void removeUser(Long id);
-    void updateUser(User user, String[] roles);
+    void updateUser(User user);
     List<User> getAllUsers();
     User loadUserByUsername(String s);
     Optional<User> findById(Long id);

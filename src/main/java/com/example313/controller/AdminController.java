@@ -26,48 +26,4 @@ public class AdminController {
         model.addAttribute("user", user);
         return "admin/admin";
     }
-
-    @GetMapping("/new")
-    public String newUser(@AuthenticationPrincipal User user, Model model) {
-        model.addAttribute("user", user);
-        model.addAttribute("newUser", new User());
-        return "admin/new";
-    }
-
-    @PostMapping
-    public String create(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult,
-                         @RequestParam(required = false, name = "newRoles") String[] newRoles) {
-
-        if (bindingResult.hasErrors()) {
-            return "admin/new";
-        }
-
-        userService.addUser(user, newRoles);
-        return "redirect:/admin";
-    }
-
-    @GetMapping("/{id}")
-    public String edit(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.getUser(id));
-        return "admin/admin";
-    }
-
-    @PutMapping("/{id}")
-    public String update(@ModelAttribute("user") @Valid User user,
-                         BindingResult bindingResult,
-                         @RequestParam(required = false, name = "currentRoles") String[] currentRoles) {
-
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin";
-        }
-        userService.updateUser(user, currentRoles);
-        return "redirect:/admin";
-    }
-
-    @DeleteMapping("/{id}")
-    public String delete(@PathVariable("id") Long id) {
-        userService.removeUser(id);
-        return "redirect:/admin";
-    }
 }
