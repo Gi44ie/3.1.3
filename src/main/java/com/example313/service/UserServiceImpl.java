@@ -51,6 +51,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user, String[] roles) {
+        user.setPassword(encoder.encode(user.getPassword()));
         if(!(roles == null)) {
             Set<Role> roleSet = new HashSet<>();
             for (String role : roles) {
